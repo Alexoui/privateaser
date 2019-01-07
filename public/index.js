@@ -151,8 +151,31 @@ function booking_price(){
   events.forEach(function(event) {
     for (var i = 0; i < bars.length; i++) {
       if(event.barId == bars[i].id){
-        var bookingPrice = event.time * bars[i].pricePerHour + event.persons * bars[i].pricePerPerson;
+        var price = event.persons * bars[i].pricePerPerson
+        if(event.persons >= 10){price = price*0.9;}
+        else if(event.persons >= 20){price = price*0.7;}
+        else if(event.persons >= 60){price = price*0.5;}
+        var deductibleReduction = 0;
+        if(event.deductibleReduction == true){deductibleReduction = event.persons}
+        var bookingPrice = event.time * bars[i].pricePerHour + price + deductibleReduction;
+
+        event.commission.insurance = (bookingPrice-deductibleReduction)*0.3*0.5;
+        event.commission.treasury = 1*event.persons;
+        event.commission.privateaser = bookingPrice-(bookingPrice-deductibleReduction)*0.3*0.5-1*event.persons ;
+
+        PaytheActor(bookingPrice);
         console.log(bookingPrice);
+        console.log(event.id);
+        console.log(event.commission);
+      }
+    }
+  });
+}
+function PaytheActor(bookingPrice){
+  actors.forEach(function(actor) {
+    for (var i = 0; i < events.length; i++) {
+      if(actor.eventId == events[i].id){
+        actor.payment.price = bookingPrice;
       }
     }
   });
