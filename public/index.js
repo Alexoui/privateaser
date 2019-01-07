@@ -146,6 +146,18 @@ const actors = [{
   }]
 }];
 
+function booking_price(){
+  var bookingPrices = []
+  events.forEach(function(event) {
+    for (var i = 0; i < bars.length; i++) {
+      if(event.barId == bars[i].id){
+        var bookingPrice = event.time * bars[i].pricePerHour + event.persons * bars[i].pricePerPerson;
+        console.log(bookingPrice);
+      }
+    }
+  });
+}
 console.log(bars);
 console.log(events);
 console.log(actors);
+booking_price();
