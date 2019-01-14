@@ -175,7 +175,12 @@ function PaytheActor(bookingPrice){
   actors.forEach(function(actor) {
     for (var i = 0; i < events.length; i++) {
       if(actor.eventId == events[i].id){
-        actor.payment.price = bookingPrice;
+        actor.payment.booker.amount = bookingPrice;
+        actor.payment.bar.amount = bookingPrice-bookingPrice*0.3;
+        actor.payment.insurance.amount =  (bookingPrice-deductibleReduction)*0.3*0.5;
+        actor.payment.treasury.amount = 1*event.persons;
+        actor.payment.privateaser.amount = bookingPrice-(bookingPrice-deductibleReduction)*0.3*0.5-1*event.persons; 
+
       }
     }
   });
