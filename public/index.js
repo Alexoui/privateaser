@@ -163,7 +163,7 @@ function booking_price(){
         event.commission.treasury = 1*event.persons;
         event.commission.privateaser = bookingPrice-(bookingPrice-deductibleReduction)*0.3*0.5-1*event.persons ;
 
-        PaytheActor(bookingPrice);
+        PaytheActor(bookingPrice,deductibleReduction,event);
         console.log(bookingPrice);
         console.log(event.id);
         console.log(event.commission);
@@ -171,15 +171,15 @@ function booking_price(){
     }
   });
 }
-function PaytheActor(bookingPrice){
+function PaytheActor(bookingPrice,deductibleReduction,event){
   actors.forEach(function(actor) {
     for (var i = 0; i < events.length; i++) {
       if(actor.eventId == events[i].id){
-        actor.payment.booker.amount = bookingPrice;
-        actor.payment.bar.amount = bookingPrice-bookingPrice*0.3;
-        actor.payment.insurance.amount =  (bookingPrice-deductibleReduction)*0.3*0.5;
-        actor.payment.treasury.amount = 1*event.persons;
-        actor.payment.privateaser.amount = bookingPrice-(bookingPrice-deductibleReduction)*0.3*0.5-1*event.persons; 
+        actor.payment[0].amount = bookingPrice;
+        actor.payment[1].amount = bookingPrice-bookingPrice*0.3;
+        actor.payment[2].amount =  (bookingPrice-deductibleReduction)*0.3*0.5;
+        actor.payment[3].amount = 1*event.persons;
+        actor.payment[4].amount = bookingPrice-(bookingPrice-deductibleReduction)*0.3*0.5-1*event.persons;
 
       }
     }
